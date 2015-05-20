@@ -10,7 +10,7 @@ bower install fme-sortable
 #Usage
 Inject the module into your angular app
 ```js
-angular.module('your-app',['fme-sortable']
+angular.module('your-app',['fme-sortable'])
 ```
 Add the directive to an ng-repeat passing the list and index to the direct
 ```html
