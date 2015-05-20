@@ -31,6 +31,6 @@ Callback triggered after dropping the item
 Callback triggered after dropping the item
 ```html
 <ul>
-  <li fme-sortable fme-list='list' fme-index='$index' fme-on-drop='myOnDropFunction()' fme-not-sortable='myFunctionToDetermineIfThingsAreNotSortable()' ng-repeat='item in list'>{{list.name}}</li>
+  <li fme-sortable fme-list='list' fme-index='$index' fme-not-sortable='myFunctionToDetermineIfThingsAreNotSortable()' ng-repeat='item in list'>{{list.name}}</li>
 </ul>
 ```
