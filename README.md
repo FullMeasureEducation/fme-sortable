@@ -2,6 +2,11 @@
 A simple html5 angularjs directive for sorting lists via drag and drop
 
 Tested with karma/chai/sinon
+#Install
+```
+bower install fme-sortable
+```
+
 #Usage
 Inject the module into your angular app
 ```js
