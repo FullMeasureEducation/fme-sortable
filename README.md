@@ -15,7 +15,11 @@ angular.module('your-app',['fme-sortable'])
 Add the directive to an ng-repeat passing the list and index to the direct
 ```html
 <ul>
-  <li fme-sortable fme-list='list' fme-index='$index' ng-repeat='item in list'>{{list.name}}</li>
+  <li fme-sortable fme-list='list' 
+      fme-index='$index' 
+      ng-repeat='item in list'>
+      {{list.name}}
+  </li>
 </ul>
 ```
 
@@ -24,13 +28,25 @@ Add the directive to an ng-repeat passing the list and index to the direct
 Callback triggered after dropping the item
 ```html
 <ul>
-  <li fme-sortable fme-list='list' fme-index='$index' fme-on-drop='myOnDropFunction()' ng-repeat='item in list'>{{list.name}}</li>
+  <li fme-sortable 
+      fme-list='list' 
+      fme-index='$index' 
+      fme-on-drop='myOnDropFunction()'
+      ng-repeat='item in list'>
+      {{list.name}}
+  </li>
 </ul>
 ```
 ##fme-not-sortable
 Callback triggered after dropping the item
 ```html
 <ul>
-  <li fme-sortable fme-list='list' fme-index='$index' fme-not-sortable='myFunctionToDetermineIfThingsAreNotSortable()' ng-repeat='item in list'>{{list.name}}</li>
+  <li fme-sortable 
+      fme-list='list' 
+      fme-index='$index' 
+      fme-not-sortable='myFunctionToDetermineIfThingsAreNotSortable()' 
+      ng-repeat='item in list'>
+      {{list.name}}
+  </li>
 </ul>
 ```
