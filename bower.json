@@ -1,0 +1,20 @@
+{
+  "name": "fme-sortable",
+  "main": "fme-sortable.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/fme-samuelbirk/fme-sortable",
+  "authors": [
+    "fme-samuelbirk <sam@fullmeasureed.com>"
+  ],
+  "description": "A simple angular directive for sorting a list with html5 drag and drop",
+  "keywords": [
+    "sortable",
+    "list",
+    "drag",
+    "and",
+    "drop",
+    "html5",
+    "angularjs"
+  ],
+  "license": "MIT"
+}
