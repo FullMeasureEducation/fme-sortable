@@ -8,5 +8,7 @@ angular.module('your-app',['fme-sortable']
 ```
 Add the directive to an ng-repeat passing the list and index to the direct
 ```html
-<ul><li fme-sortable fme-list='list' fme-index='$index' ng-repeat='item in list'>{{list.name}}</li></ul>
+<ul>
+  <li fme-sortable fme-list='list' fme-index='$index' ng-repeat='item in list'>{{list.name}}</li>
+</ul>
 ```
