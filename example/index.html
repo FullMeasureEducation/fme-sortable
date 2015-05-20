@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <style>
+      .dropzone{
+        background-color:#ccc;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-rc.2/angular.min.js"></script>
+    <script src="../fme-sortable.js"></script>
+  </head>
+  <body>
+    <ul class='list-group' ng-app='fme-sortable' ng-init='list=[{label:"Item 1"},{label:"Item 2"},{label:"Item 3"},{label:"Item 4"}]'>
+      <li class='list-group-item' fme-sortable fme-list='list' fme-index='$index' ng-repeat='item in list'>
+        {{item.label}}
+      </li>
+    </ul>
+  </body>
+</html>
