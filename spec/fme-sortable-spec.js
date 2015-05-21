@@ -5,7 +5,7 @@
       this.timeout = $timeout;
       this.scope = $rootScope.$new();
       this.compile = $compile;
-      this.scope.fmeOnDrop = function() {
+      this.scope.onDrop = function() {
         return false;
       };
       this.scope.sortable = function() {
@@ -20,8 +20,12 @@
           name: 'test3'
         }
       ];
-      this.element = angular.element("<ul><li id='item_{{$index}}' fme-sortable='true'  index='$index' list='array_of_models'  ng-repeat='model in array_of_models' on-drop='onDrop()'>{{model.name}}</li></ul>");
-      return this.element_not_sortable = angular.element("<ul><li id='item_not_sortable_{{$index}}' fme-sortable='true'  index='$index' list='array_of_models'  ng-repeat='model in array_of_models' on-drop='onDrop()' not-sortable='!sortable()'>{{model.name}}</li></ul>");
+      this.element = angular.element("<ul><li id='item_{{$index}}' fme-sortable='true'  fme-index='$index' fme-list='array_of_models'  ng-repeat='model in array_of_models' fme-on-drop='onDrop()'>{{model.name}}</li></ul>");
+      this.compile(this.element)(this.scope);
+      this.scope.$digest();
+      this.element_not_sortable = angular.element("<ul><li id='item_not_sortable_{{$index}}' fme-sortable='true' fme-index='$index' fme-list='array_of_models'  ng-repeat='model in array_of_models' on-drop='onDrop()' fme-not-sortable='!sortable()'>{{model.name}}</li></ul>");
+      this.compile(this.element_not_sortable)(this.scope);
+      return this.scope.$digest();
     }));
     afterEach(function() {
       this.element.remove();
@@ -30,8 +34,6 @@
     describe('draggableAttr', function() {
       it('is draggable by default', function() {
         var element_has_draggable_attribute;
-        this.compile(this.element)(this.scope);
-        this.scope.$digest();
         element_has_draggable_attribute = false;
         angular.forEach(this.element[0].children[0].attributes, function(attribute, key) {
           if (attribute['name'] === 'draggable') {
@@ -42,8 +44,6 @@
       });
       return it('is not draggable if it is marked not sortable', function() {
         var element_has_draggable_attribute;
-        this.compile(this.element_not_sortable)(this.scope);
-        this.scope.$digest();
         element_has_draggable_attribute = false;
         angular.forEach(this.element_not_sortable[0].children[0].attributes, function(attribute, key) {
           if (attribute['name'] === 'draggable') {
@@ -55,149 +55,111 @@
     });
     describe('dragstart', function() {
       return it('makes the index available to the event handler for future use during draghover, drop, etc', function() {
-        var first_item, mockEvent;
+        var mockEvent;
         mockEvent = $.Event('dragstart');
-        mockEvent.originalEvent = {
-          dataTransfer: {
-            setData: function(type, data) {
-              return true;
-            }
+        mockEvent.dataTransfer = {
+          setData: function(type, data) {
+            return true;
           }
         };
-        sinon.stub(mockEvent.originalEvent.dataTransfer, 'setData');
-        this.element.appendTo('body');
-        this.compile(this.element)(this.scope);
-        this.scope.$digest();
-        first_item = this.element.find('li:first');
-        first_item.triggerHandler(mockEvent);
-        expect(mockEvent.originalEvent.dataTransfer.setData).to.be.called;
-        return mockEvent.originalEvent.dataTransfer.setData.restore();
+        sinon.stub(mockEvent.dataTransfer, 'setData');
+        this.element.find('li:first').triggerHandler(mockEvent);
+        expect(mockEvent.dataTransfer.setData).to.be.called;
+        return mockEvent.dataTransfer.setData.restore();
       });
     });
     describe('dragover', function() {
       it('prevents the default browser action and tells the event to set the drop effect to move', function() {
-        var first_item, mockEvent;
+        var mockEvent;
         mockEvent = $.Event('dragover');
-        mockEvent.originalEvent = {
-          dataTransfer: {
-            dropEffect: 'something'
-          }
+        mockEvent.dataTransfer = {
+          dropEffect: 'something'
         };
         sinon.stub(mockEvent, 'preventDefault');
-        this.element.appendTo('body');
-        this.compile(this.element)(this.scope);
-        this.scope.$digest();
-        first_item = this.element.find('li:first');
-        first_item.triggerHandler(mockEvent);
+        this.element.find('li:first').triggerHandler(mockEvent);
         expect(mockEvent.preventDefault).to.be.called;
-        expect(mockEvent.originalEvent.dataTransfer.dropEffect).to.eq('move');
-        expect(first_item.hasClass('dropzone')).to.be["true"];
+        expect(mockEvent.dataTransfer.dropEffect).to.eq('move');
+        expect(this.element.find('li:first').hasClass('dropzone')).to.be["true"];
         return mockEvent.preventDefault.restore();
       });
       return it('does not set the drop effect when it is the element being dragged', function() {
-        var first_item, mockDragOverEvent, mockDragStartEvent;
+        var mockDragOverEvent, mockDragStartEvent;
         mockDragStartEvent = $.Event('dragstart');
-        mockDragStartEvent.originalEvent = {
-          dataTransfer: {
-            setData: function(type, data) {
-              return true;
-            }
+        mockDragStartEvent.dataTransfer = {
+          setData: function(type, data) {
+            return true;
           }
         };
-        sinon.stub(mockDragStartEvent.originalEvent.dataTransfer, 'setData');
+        sinon.stub(mockDragStartEvent.dataTransfer, 'setData');
         mockDragOverEvent = $.Event('dragover');
-        mockDragOverEvent.originalEvent = {
-          dataTransfer: {
-            dropEffect: 'something'
-          }
+        mockDragOverEvent.dataTransfer = {
+          dropEffect: 'something'
         };
         sinon.stub(mockDragOverEvent, 'preventDefault');
-        this.element.appendTo('body');
-        this.compile(this.element)(this.scope);
-        this.scope.digest;
-        first_item = this.element.find('li:first');
-        first_item.triggerHandler(mockDragStartEvent);
-        first_item.triggerHandler(mockDragOverEvent);
-        return expect(mockDragOverEvent.originalEvent.dataTransfer.dropEffect).not.to.eq('move');
+        this.element.find('li:first').triggerHandler(mockDragStartEvent);
+        this.element.find('li:first').triggerHandler(mockDragOverEvent);
+        return expect(mockDragOverEvent.dataTransfer.dropEffect).not.to.eq('move');
       });
     });
     describe('dragleave', function() {
       return it('removes the dropzone class from the item', function() {
-        var first_item, mockDragLeaveEvent, mockDragOverEvent;
+        var mockDragLeaveEvent, mockDragOverEvent;
         mockDragOverEvent = $.Event('dragover');
-        mockDragOverEvent.originalEvent = {
-          dataTransfer: {
-            dropEffect: 'something'
-          }
+        mockDragOverEvent.dataTransfer = {
+          dropEffect: 'something'
         };
         sinon.stub(mockDragOverEvent, 'preventDefault');
-        this.element.appendTo('body');
-        this.compile(this.element)(this.scope);
-        this.scope.$digest();
-        first_item = this.element.find('li:first');
-        first_item.triggerHandler(mockDragOverEvent);
-        expect(first_item.hasClass('dropzone')).to.be["true"];
+        this.element.find('li:first').triggerHandler(mockDragOverEvent);
+        expect(this.element.find('li:first').hasClass('dropzone')).to.be["true"];
         mockDragLeaveEvent = $.Event('dragleave');
-        first_item.triggerHandler(mockDragLeaveEvent);
-        expect(first_item.hasClass('dropzone')).to.be["false"];
+        this.element.find('li:first').triggerHandler(mockDragLeaveEvent);
+        expect(this.element.find('li:first').hasClass('dropzone')).to.be["false"];
         return mockDragOverEvent.preventDefault.restore();
       });
     });
     return describe('drop', function() {
       context('when the first item is dropped on the last item', function() {
         return it('reorders the model array such that the first item is last and the last item is second to last {1,2,3} => {2,3,1}', function() {
-          var last_item, mockDropEvent;
+          var mockDropEvent;
           mockDropEvent = $.Event('drop');
-          mockDropEvent.originalEvent = {
-            dataTransfer: {
-              getData: function(type) {
-                return true;
-              }
+          mockDropEvent.dataTransfer = {
+            getData: function(type) {
+              return true;
             }
           };
-          sinon.stub(mockDropEvent.originalEvent.dataTransfer, 'getData').returns('0');
-          sinon.stub(this.scope, 'fmeOnDrop');
-          this.element.appendTo('body');
-          this.compile(this.element)(this.scope);
-          this.scope.$digest();
-          last_item = this.element.find('li:last');
-          last_item.triggerHandler(mockDropEvent);
+          sinon.stub(mockDropEvent.dataTransfer, 'getData').returns('0');
+          sinon.stub(this.scope, 'onDrop');
+          this.element.find('li:last').triggerHandler(mockDropEvent);
           this.timeout.flush();
-          expect(last_item.hasClass('dropzone')).to.be["false"];
-          expect(this.scope.fmeOnDrop).to.be.called;
+          expect(this.element.find('li:last').hasClass('dropzone')).to.be["false"];
+          expect(this.scope.onDrop).to.be.called;
           expect(this.scope.array_of_models[0].name).to.equal('test2');
           expect(this.scope.array_of_models[1].name).to.equal('test3');
           expect(this.scope.array_of_models[2].name).to.equal('test1');
-          this.scope.fmeOnDrop.restore();
-          return mockDropEvent.originalEvent.dataTransfer.getData.restore();
+          this.scope.onDrop.restore();
+          return mockDropEvent.dataTransfer.getData.restore();
         });
       });
       return context('when the last item is dropped on the first item', function() {
         return it('reorders the model array such that the last item is first and the first item is second {1,2,3} => {3,1,2}', function() {
-          var first_item, mockDropEvent;
+          var mockDropEvent;
           mockDropEvent = $.Event('drop');
-          mockDropEvent.originalEvent = {
-            dataTransfer: {
-              getData: function(type) {
-                return true;
-              }
+          mockDropEvent.dataTransfer = {
+            getData: function(type) {
+              return true;
             }
           };
-          sinon.stub(mockDropEvent.originalEvent.dataTransfer, 'getData').returns('2');
-          sinon.stub(this.scope, 'fmeOnDrop');
-          this.element.appendTo('body');
-          this.compile(this.element)(this.scope);
-          this.scope.$digest();
-          first_item = this.element.find('li:first');
-          first_item.triggerHandler(mockDropEvent);
+          sinon.stub(mockDropEvent.dataTransfer, 'getData').returns('2');
+          sinon.stub(this.scope, 'onDrop');
+          this.element.find('li:first').triggerHandler(mockDropEvent);
           this.timeout.flush();
-          expect(first_item.hasClass('dropzone')).to.be["false"];
-          expect(this.scope.fmeOnDrop).to.be.called;
+          expect(this.element.find('li:first').hasClass('dropzone')).to.be["false"];
+          expect(this.scope.onDrop).to.be.called;
           expect(this.scope.array_of_models[0].name).to.equal('test3');
           expect(this.scope.array_of_models[1].name).to.equal('test1');
           expect(this.scope.array_of_models[2].name).to.equal('test2');
-          this.scope.fmeOnDrop.restore();
-          return mockDropEvent.originalEvent.dataTransfer.getData.restore();
+          this.scope.onDrop.restore();
+          return mockDropEvent.dataTransfer.getData.restore();
         });
       });
     });
