@@ -4,4 +4,3 @@ config.codekit
 .idea/*
 coverage
 *.DS_Store*
-coverage
