@@ -1,6 +1,7 @@
 before_install:
 
 script:
+  - bower install
   - npm test && npm run-script verify
 
 after_script:
