@@ -50,3 +50,13 @@ Callback triggered after dropping the item
   </li>
 </ul>
 ```
+
+##Run the tests locally
+  - Install HomeBrew
+    ```ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"```
+  - Install npm
+    ```brew install node```
+  - Install Karma
+    ```npm install karma```
+  -Run Karma tests
+    ```karma start karma.conf.js```
