@@ -31,7 +31,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "rm -rf ./coverage && ./node_modules/karma/bin/karma start --single-run --browsers PhantomJS",
-    "verify": "./node_modules/istanbul/lib/cli.js check-coverage --statements 84.34 --branches 77.14 --functions 81.8 --lines 83.1"
+    "verify": "./node_modules/istanbul/lib/cli.js check-coverage --statements 100 --branches 100 --functions 100 --lines 100"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,21 @@
+before_install:
+
+script:
+  - npm test && npm run-script verify
+
+after_script:
+  - cat lcov.info 
+
+language: node_js
+
+node_js:
+  - "0.10.32"
+
+notifications:
+  hipchat: 2093402af73acd7a21e8b80af22a7c@Travis
+  slack: fullmeasure:Lws3utEd6ra57eZT1gwiCI8D
+
+branches:
+  except:
+    - /\d{4}-\d{2}-\d{2}/
+

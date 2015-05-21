@@ -7,6 +7,7 @@ module.exports = function(config) {
     frameworks: ['mocha-debug', 'mocha', 'chai', 'sinon', 'sinon-chai'],
 
     files: [
+      'bower_components/jQuery/dist/jquery.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'fme-sortable.coffee',

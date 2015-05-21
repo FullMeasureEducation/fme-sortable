@@ -1,8 +1,7 @@
-.DS_Store
 node_modules
 bower_components
 config.codekit
 .idea/*
-.DS_Store.tddium*
 coverage
 *.DS_Store*
+coverage
