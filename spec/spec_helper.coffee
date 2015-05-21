@@ -1,7 +1,7 @@
 #= require bower_components/angular/angular.js
 #= require bower_components/angular/angular-mocks.js
-#= require bower_components/sinon/lib/sinon/sinon.js
-#= require bower_components/sinon-chai/lib/sinon-chai.js
+#= require node_modules/karma-sinon/index.js
+#= require node_modules/karma-sinon-chai/index.js
 
 window.mock_window_service =
   confirm: ->
