@@ -9,7 +9,7 @@ bower install fme-sortable
 Inject the module into your angular app
 ```js
 angular.module('your-app',['fme-sortable'])
-```asdas
+```
 
 #Usage
 Add the directive to an ng-repeat passing the list and index to the direct
@@ -49,7 +49,7 @@ Callback triggered after dropping the item
       {{list.name}}
   </li>
 </ul>
-```
+```asdasdasd adasd asd 
 
 ##Run the tests locally
   - Install HomeBrew
