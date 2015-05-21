@@ -1,4 +1,4 @@
-#= require ../support/spec_helper.js.coffee
+#= require spec_helper.coffee
 
 describe 'fmeSortable', ->
   beforeEach inject ($rootScope, $compile, $timeout) ->
