@@ -58,5 +58,5 @@ Callback triggered after dropping the item
     ```brew install node```
   - Install Karma
     ```npm install karma```
-  -Run Karma tests
+  - Run Karma tests
     ```karma start karma.conf.js```
