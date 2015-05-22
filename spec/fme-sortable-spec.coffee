@@ -1,6 +1,6 @@
 #= require spec_helper.coffee
 #tester
-describe 'fmeSortable', ->
+describe 'fmeSortable2', ->
   beforeEach inject ($rootScope, $compile, $timeout) ->
     @timeout = $timeout
     @scope = $rootScope.$new()
