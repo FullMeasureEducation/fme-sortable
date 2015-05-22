@@ -2,6 +2,8 @@ before_install:
 
 script:
   - bower install
+  - coffee --compile fme-sortable.coffee
+  - coffee --compile spec/fme-sortable-spec.coffee
   - npm test && npm run-script verify
 
 after_script:
