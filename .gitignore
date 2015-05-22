@@ -1,2 +1,6 @@
-.DS_Store
 node_modules
+bower_components
+config.codekit
+.idea/*
+coverage
+*.DS_Store*

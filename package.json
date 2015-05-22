@@ -1,0 +1,55 @@
+{
+  "name": "fme-sortable",
+  "version": "1.0.0",
+  "description": "A simple hmtl5 angular js directive for sorting lists via drag and drop",
+  "main": "fme-sortable.js",
+  "directories": {
+    "example": "example"
+  },
+  "dependencies": {
+    "bower": "^1.4.1",
+    "chai": "~1.9.1",
+    "codeclimate-test-reporter": "~0.0.4",
+    "coffee-script": "^1.8.0",
+    "istanbul": "^0.3.5",
+    "karma": "^0.12.32",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.1.5",
+    "karma-coffee-preprocessor": "^0.2.1",
+    "karma-coverage": "git+https://github.com/kylewelsby/karma-coverage#fix-coffee-script-compiler",
+    "karma-mocha": "^0.1.9",
+    "karma-mocha-debug": "^0.1.2",
+    "karma-ng-haml2js-preprocessor": "^0.1.1",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-requirejs": "^0.2.2",
+    "karma-sinon": "^1.0.3",
+    "karma-sinon-chai": "^0.2.0",
+    "mocha": "^2.0.1",
+    "q": "^2.0.2",
+    "sinon": "^1.12.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "rm -rf ./coverage && ./node_modules/karma/bin/karma start --single-run --browsers PhantomJS",
+    "verify": "./node_modules/istanbul/lib/cli.js check-coverage --statements 100 --branches 100 --functions 100 --lines 100"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FullMeasureEducation/fme-sortable.git"
+  },
+  "keywords": [
+    "html5",
+    "angular",
+    "angularjs",
+    "js",
+    "drag",
+    "drop",
+    "list"
+  ],
+  "author": "Samuel Birk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FullMeasureEducation/fme-sortable/issues"
+  },
+  "homepage": "https://github.com/FullMeasureEducation/fme-sortable"
+}
