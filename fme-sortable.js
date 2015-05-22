@@ -15,22 +15,27 @@
           element.attr('draggable', 'true');
           dragging_index = null;
           element.on('dragstart', function(event) {
+            var e;
             dragging_index = scope.fmeIndex;
-            return event.dataTransfer.setData('text/plain', dragging_index);
+            e = event.originalEvent != null ? event.originalEvent : event;
+            return e.dataTransfer.setData('text/plain', dragging_index);
           });
           element.on('dragover', function(event) {
-            event.preventDefault();
+            var e;
+            e = event.originalEvent != null ? event.originalEvent : event;
+            e.preventDefault();
             if (scope.fmeIndex !== dragging_index) {
               element.addClass('dropzone');
-              return event.dataTransfer.dropEffect = 'move';
+              return e.dataTransfer.dropEffect = 'move';
             }
           });
           element.on('dragleave', function(event) {
             return element.removeClass('dropzone');
           });
           return element.on('drop', function(event) {
-            var dropped_fmeIndex, dropped_model;
-            dropped_fmeIndex = event.dataTransfer.getData('text/plain');
+            var dropped_fmeIndex, dropped_model, e;
+            e = event.originalEvent != null ? event.originalEvent : event;
+            dropped_fmeIndex = e.dataTransfer.getData('text/plain');
             dropped_model = scope.fmeList[dropped_fmeIndex];
             element.removeClass('dropzone');
             return $timeout(function() {
