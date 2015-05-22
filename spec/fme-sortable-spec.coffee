@@ -39,16 +39,29 @@ describe 'fmeSortable', ->
       expect(element_has_draggable_attribute).to.be.false
 
   describe 'dragstart', ->
-    it 'makes the index available to the event handler for future use during draghover, drop, etc', ->
+    context 'when the event is fired by jquery it uses event.originalEvent',->
+      it 'makes the index available to the event handler for future use during draghover, drop, etc', ->
 
-      mockEvent = $.Event('dragstart')
-      
-      mockEvent.dataTransfer = {setData: (type,data)-> true}
-      sinon.stub(mockEvent.dataTransfer,'setData')
-      
-      @element.find('li:first').triggerHandler(mockEvent)
-      expect(mockEvent.dataTransfer.setData).to.be.called
-      mockEvent.dataTransfer.setData.restore()
+        mockEvent = $.Event('dragstart')
+        
+        mockEvent.originalEvent.dataTransfer = {setData: (type,data)-> true}
+        sinon.stub(mockEvent.dataTransfer,'setData')
+        
+        @element.find('li:first').triggerHandler(mockEvent)
+        expect(mockEvent.originalEvent.dataTransfer.setData).to.be.called
+        mockEvent.originalEvent.dataTransfer.setData.restore()
+
+    context 'when the event is NOT fired by jquery it uses event',->
+      it 'makes the index available to the event handler for future use during draghover, drop, etc', ->
+
+        mockEvent = $.Event('dragstart')
+        
+        mockEvent.dataTransfer = {setData: (type,data)-> true}
+        sinon.stub(mockEvent.dataTransfer,'setData')
+        
+        @element.find('li:first').triggerHandler(mockEvent)
+        expect(mockEvent.dataTransfer.setData).to.be.called
+        mockEvent.dataTransfer.setData.restore()
 
   describe 'dragover', ->
     it 'prevents the default browser action and tells the event to set the drop effect to move', ->
