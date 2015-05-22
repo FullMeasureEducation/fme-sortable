@@ -13,19 +13,22 @@ angular.module('fme-sortable', [])
 
       element.on 'dragstart' , (event) ->
         dragging_index = scope.fmeIndex
-        event.originalEvent.dataTransfer.setData('text/plain', dragging_index)
+        e = if event.originalEvent? then event.originalEvent else event
+        e.dataTransfer.setData('text/plain', dragging_index)
 
       element.on 'dragover', (event) ->
-        event.originalEvent.preventDefault()
+        e = if event.originalEvent? then event.originalEvent else event
+        e.preventDefault()
         unless scope.fmeIndex is dragging_index
           element.addClass('dropzone')
-          event.originalEvent.dataTransfer.dropEffect = 'move'
+          e.dataTransfer.dropEffect = 'move'
 
       element.on 'dragleave', (event) ->
         element.removeClass('dropzone')
 
       element.on 'drop', (event) ->
-        dropped_fmeIndex = event.originalEvent.dataTransfer.getData('text/plain')
+        e = if event.originalEvent? then event.originalEvent else event
+        dropped_fmeIndex = e.dataTransfer.getData('text/plain')
         dropped_model = scope.fmeList[dropped_fmeIndex]
         element.removeClass('dropzone')
         #timeout needed see http://stackoverflow.com/questions/19391773/angularjs-parent-scope-not-updated-in-directive-with-isolated-scope-two-way-b
