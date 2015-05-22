@@ -49,7 +49,7 @@ Callback triggered after dropping the item
       {{list.name}}
   </li>
 </ul>
-```asdasdasd adasd asd 
+```
 
 ##Run the tests locally
   - Install HomeBrew
