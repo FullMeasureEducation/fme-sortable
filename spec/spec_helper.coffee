@@ -1,4 +1,4 @@
-#= require bower_components/jQuery/dist/jquery.js
+#= require bower_components/jquery/dist/jquery.js
 #= require bower_components/angular/angular.js
 #= require bower_components/angular/angular-mocks.js
 #= require node_modules/karma-sinon/index.js
