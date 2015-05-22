@@ -44,7 +44,7 @@ describe 'fmeSortable', ->
 
         mockEvent = $.Event('dragstart')
         
-        mockEvent.originalEvent.dataTransfer = {setData: (type,data)-> true}
+        mockEvent.originalEvent = {dataTransfer:{setData: (type,data)-> true}}
         sinon.stub(mockEvent.dataTransfer,'setData')
         
         @element.find('li:first').triggerHandler(mockEvent)
