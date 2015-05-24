@@ -18,7 +18,7 @@ angular.module('fme-sortable', [])
 
       element.on 'dragover', (event) ->
         e = if event.originalEvent? then event.originalEvent else event
-        e.preventDefault()
+        event.preventDefault()
         unless scope.fmeIndex is dragging_index
           element.addClass('dropzone')
           e.dataTransfer.dropEffect = 'move'
