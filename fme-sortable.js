@@ -23,7 +23,7 @@
           element.on('dragover', function(event) {
             var e;
             e = event.originalEvent != null ? event.originalEvent : event;
-            e.preventDefault();
+            event.preventDefault();
             if (scope.fmeIndex !== dragging_index) {
               element.addClass('dropzone');
               return e.dataTransfer.dropEffect = 'move';

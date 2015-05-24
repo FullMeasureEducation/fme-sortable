@@ -54,33 +54,71 @@
       });
     });
     describe('dragstart', function() {
-      return it('makes the index available to the event handler for future use during draghover, drop, etc', function() {
-        var mockEvent;
-        mockEvent = $.Event('dragstart');
-        mockEvent.dataTransfer = {
-          setData: function(type, data) {
-            return true;
-          }
-        };
-        sinon.stub(mockEvent.dataTransfer, 'setData');
-        this.element.find('li:first').triggerHandler(mockEvent);
-        expect(mockEvent.dataTransfer.setData).to.be.called;
-        return mockEvent.dataTransfer.setData.restore();
+      context('when the event is fired by jquery it uses event.originalEvent', function() {
+        return it('makes the index available to the event handler for future use during draghover, drop, etc', function() {
+          var mockEvent;
+          mockEvent = $.Event('dragstart');
+          mockEvent.originalEvent = {
+            dataTransfer: {
+              setData: function(type, data) {
+                return true;
+              }
+            }
+          };
+          sinon.stub(mockEvent.originalEvent.dataTransfer, 'setData');
+          this.element.find('li:first').triggerHandler(mockEvent);
+          expect(mockEvent.originalEvent.dataTransfer.setData).to.be.called;
+          return mockEvent.originalEvent.dataTransfer.setData.restore();
+        });
+      });
+      return context('when the event is NOT fired by jquery it uses event', function() {
+        return it('makes the index available to the event handler for future use during draghover, drop, etc', function() {
+          var mockEvent;
+          mockEvent = $.Event('dragstart');
+          mockEvent.dataTransfer = {
+            setData: function(type, data) {
+              return true;
+            }
+          };
+          sinon.stub(mockEvent.dataTransfer, 'setData');
+          this.element.find('li:first').triggerHandler(mockEvent);
+          expect(mockEvent.dataTransfer.setData).to.be.called;
+          return mockEvent.dataTransfer.setData.restore();
+        });
       });
     });
     describe('dragover', function() {
-      it('prevents the default browser action and tells the event to set the drop effect to move', function() {
-        var mockEvent;
-        mockEvent = $.Event('dragover');
-        mockEvent.dataTransfer = {
-          dropEffect: 'something'
-        };
-        sinon.stub(mockEvent, 'preventDefault');
-        this.element.find('li:first').triggerHandler(mockEvent);
-        expect(mockEvent.preventDefault).to.be.called;
-        expect(mockEvent.dataTransfer.dropEffect).to.eq('move');
-        expect(this.element.find('li:first').hasClass('dropzone')).to.be["true"];
-        return mockEvent.preventDefault.restore();
+      context('when the event is fired by jquery it uses event.originalEvent', function() {
+        return it('prevents the default browser action and tells the event to set the drop effect to move', function() {
+          var mockEvent;
+          mockEvent = $.Event('dragover');
+          mockEvent.originalEvent = {
+            dataTransfer: {
+              dropEffect: 'something'
+            }
+          };
+          sinon.stub(mockEvent, 'preventDefault');
+          this.element.find('li:first').triggerHandler(mockEvent);
+          expect(mockEvent.preventDefault).to.be.called;
+          expect(mockEvent.originalEvent.dataTransfer.dropEffect).to.eq('move');
+          expect(this.element.find('li:first').hasClass('dropzone')).to.be["true"];
+          return mockEvent.preventDefault.restore();
+        });
+      });
+      context('when the event is NOT fired by jquery it uses event', function() {
+        return it('prevents the default browser action and tells the event to set the drop effect to move', function() {
+          var mockEvent;
+          mockEvent = $.Event('dragover');
+          mockEvent.dataTransfer = {
+            dropEffect: 'something'
+          };
+          sinon.stub(mockEvent, 'preventDefault');
+          this.element.find('li:first').triggerHandler(mockEvent);
+          expect(mockEvent.preventDefault).to.be.called;
+          expect(mockEvent.dataTransfer.dropEffect).to.eq('move');
+          expect(this.element.find('li:first').hasClass('dropzone')).to.be["true"];
+          return mockEvent.preventDefault.restore();
+        });
       });
       return it('does not set the drop effect when it is the element being dragged', function() {
         var mockDragOverEvent, mockDragStartEvent;
@@ -122,12 +160,14 @@
         return it('reorders the model array such that the first item is last and the last item is second to last {1,2,3} => {2,3,1}', function() {
           var mockDropEvent;
           mockDropEvent = $.Event('drop');
-          mockDropEvent.dataTransfer = {
-            getData: function(type) {
-              return true;
+          mockDropEvent.originalEvent = {
+            dataTransfer: {
+              getData: function(type) {
+                return true;
+              }
             }
           };
-          sinon.stub(mockDropEvent.dataTransfer, 'getData').returns('0');
+          sinon.stub(mockDropEvent.originalEvent.dataTransfer, 'getData').returns('0');
           sinon.stub(this.scope, 'onDrop');
           this.element.find('li:last').triggerHandler(mockDropEvent);
           this.timeout.flush();
@@ -137,7 +177,7 @@
           expect(this.scope.array_of_models[1].name).to.equal('test3');
           expect(this.scope.array_of_models[2].name).to.equal('test1');
           this.scope.onDrop.restore();
-          return mockDropEvent.dataTransfer.getData.restore();
+          return mockDropEvent.originalEvent.dataTransfer.getData.restore();
         });
       });
       return context('when the last item is dropped on the first item', function() {
