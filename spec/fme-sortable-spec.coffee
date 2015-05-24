@@ -39,29 +39,55 @@ describe 'fmeSortable', ->
       expect(element_has_draggable_attribute).to.be.false
 
   describe 'dragstart', ->
-    it 'makes the index available to the event handler for future use during draghover, drop, etc', ->
+    context 'when the event is fired by jquery it uses event.originalEvent',->
+      it 'makes the index available to the event handler for future use during draghover, drop, etc', ->
 
-      mockEvent = $.Event('dragstart')
-      
-      mockEvent.dataTransfer = {setData: (type,data)-> true}
-      sinon.stub(mockEvent.dataTransfer,'setData')
-      
-      @element.find('li:first').triggerHandler(mockEvent)
-      expect(mockEvent.dataTransfer.setData).to.be.called
-      mockEvent.dataTransfer.setData.restore()
+        mockEvent = $.Event('dragstart')
+        
+        mockEvent.originalEvent = {dataTransfer:{setData: (type,data)-> true}}
+        sinon.stub(mockEvent.originalEvent.dataTransfer,'setData')
+        
+        @element.find('li:first').triggerHandler(mockEvent)
+        expect(mockEvent.originalEvent.dataTransfer.setData).to.be.called
+        mockEvent.originalEvent.dataTransfer.setData.restore()
+
+    context 'when the event is NOT fired by jquery it uses event',->
+      it 'makes the index available to the event handler for future use during draghover, drop, etc', ->
+
+        mockEvent = $.Event('dragstart')
+        
+        mockEvent.dataTransfer = {setData: (type,data)-> true}
+        sinon.stub(mockEvent.dataTransfer,'setData')
+        
+        @element.find('li:first').triggerHandler(mockEvent)
+        expect(mockEvent.dataTransfer.setData).to.be.called
+        mockEvent.dataTransfer.setData.restore()
 
   describe 'dragover', ->
-    it 'prevents the default browser action and tells the event to set the drop effect to move', ->
-      mockEvent = $.Event('dragover')
-      mockEvent.dataTransfer = {dropEffect: 'something'}
-      sinon.stub(mockEvent,'preventDefault')
+    context 'when the event is fired by jquery it uses event.originalEvent',->
+      it 'prevents the default browser action and tells the event to set the drop effect to move', ->
+        mockEvent = $.Event('dragover')
+        mockEvent.originalEvent = {dataTransfer: {dropEffect: 'something'}}
+        sinon.stub(mockEvent,'preventDefault')
 
-      @element.find('li:first').triggerHandler(mockEvent)
-      expect(mockEvent.preventDefault).to.be.called
-      expect(mockEvent.dataTransfer.dropEffect).to.eq('move')
-      expect(@element.find('li:first').hasClass('dropzone')).to.be.true
-      
-      mockEvent.preventDefault.restore()
+        @element.find('li:first').triggerHandler(mockEvent)
+        expect(mockEvent.preventDefault).to.be.called
+        expect(mockEvent.originalEvent.dataTransfer.dropEffect).to.eq('move')
+        expect(@element.find('li:first').hasClass('dropzone')).to.be.true
+        
+        mockEvent.preventDefault.restore()
+    context 'when the event is NOT fired by jquery it uses event',->
+      it 'prevents the default browser action and tells the event to set the drop effect to move', ->
+        mockEvent = $.Event('dragover')
+        mockEvent.dataTransfer = {dropEffect: 'something'}
+        sinon.stub(mockEvent,'preventDefault')
+
+        @element.find('li:first').triggerHandler(mockEvent)
+        expect(mockEvent.preventDefault).to.be.called
+        expect(mockEvent.dataTransfer.dropEffect).to.eq('move')
+        expect(@element.find('li:first').hasClass('dropzone')).to.be.true
+        
+        mockEvent.preventDefault.restore()
 
     it 'does not set the drop effect when it is the element being dragged', ->
       mockDragStartEvent = $.Event('dragstart')
@@ -98,8 +124,8 @@ describe 'fmeSortable', ->
     context 'when the first item is dropped on the last item', ->
       it 'reorders the model array such that the first item is last and the last item is second to last {1,2,3} => {2,3,1}', ->
         mockDropEvent = $.Event('drop')
-        mockDropEvent.dataTransfer = {getData: (type)-> true}
-        sinon.stub(mockDropEvent.dataTransfer,'getData').returns('0')
+        mockDropEvent.originalEvent = {dataTransfer: {getData: (type)-> true}}
+        sinon.stub(mockDropEvent.originalEvent.dataTransfer,'getData').returns('0')
         sinon.stub(@scope,'onDrop')
         
 
@@ -111,7 +137,7 @@ describe 'fmeSortable', ->
         expect(@scope.array_of_models[1].name).to.equal('test3')
         expect(@scope.array_of_models[2].name).to.equal('test1')
         @scope.onDrop.restore()
-        mockDropEvent.dataTransfer.getData.restore()
+        mockDropEvent.originalEvent.dataTransfer.getData.restore()
 
     context 'when the last item is dropped on the first item', ->
       it 'reorders the model array such that the last item is first and the first item is second {1,2,3} => {3,1,2}', ->
