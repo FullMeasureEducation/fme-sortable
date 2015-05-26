@@ -10,7 +10,9 @@ Inject the module into your angular app
 ```js
 angular.module('your-app',['fme-sortable'])
 ```
-
+#Developer Info
+- git hooks do not git pushed to github
+- So, run ``` cp git-hooks/. .git/hooks/. ```
 #Usage
 Add the directive to an ng-repeat passing the list and index to the direct
 ```html
