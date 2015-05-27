@@ -1,9 +1,9 @@
 #!/bin/sh
-karma start karma.conf.js --single-run
+karma start karma.conf.js --single-run --browsers PhantomJS
 if [ $? -eq 0 ]; then
     echo "GREAT SUCCESS -- ALL TESTS PASSED AND COFFEE WAS COMPILED"
     cp $(git rev-parse --show-toplevel)/coverage/PhantomJS\ 1.9.8\ \(Mac\ OS\ X\)/lcov-report/index.html $(git rev-parse --show-toplevel)/karma_tests.html
-    echo 
+  
     touch .commit
 
     coffee --compile $(git rev-parse --show-toplevel)/fme-sortable.coffee
@@ -11,7 +11,14 @@ if [ $? -eq 0 ]; then
     exit 0
   
 else
-      echo "FAIL FAIL FAIL -- CHECK YOUR TESTS AND TRY AGAIN"
+    echo "FAIL FAIL FAIL -- CHECK YOUR TESTS AND TRY AGAIN"
+    cp $(git rev-parse --show-toplevel)/coverage/PhantomJS\ 1.9.8\ \(Mac\ OS\ X\)/lcov-report/index.html $(git rev-parse --show-toplevel)/karma_tests.html
+  
+    touch .commit
+
+    coffee --compile $(git rev-parse --show-toplevel)/fme-sortable.coffee
+    coffee --compile $(git rev-parse --show-toplevel)/spec/fme-sortable-spec.coffee
+    exit 0
       exit 0
 fi
 exit 1
