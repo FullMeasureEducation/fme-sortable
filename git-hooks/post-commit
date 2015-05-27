@@ -7,5 +7,6 @@ if [ -a .commit ]
     git add $(git rev-parse --show-toplevel)/karma_tests.html
     git add $(git rev-parse --show-toplevel)/git-hooks/.
     git commit --amend -C HEAD --no-verify
+    echo 'test'
 fi
-exit
+exit 0
