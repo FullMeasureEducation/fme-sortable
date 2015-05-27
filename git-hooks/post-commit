@@ -5,6 +5,7 @@ if [ -a .commit ]
     git add $(git rev-parse --show-toplevel)/fme-sortable.coffee
     git add $(git rev-parse --show-toplevel)/spec/fme-sortable-spec.coffee
     git add $(git rev-parse --show-toplevel)/karma_tests.html
+    git add $(git rev-parse --show-toplevel)/git-hooks/.
     git commit --amend -C HEAD --no-verify
 fi
 exit

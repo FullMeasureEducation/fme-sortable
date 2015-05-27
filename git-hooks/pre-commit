@@ -1,13 +1,16 @@
 #!/bin/sh
+cp $(git rev-parse --show-toplevel)/.git/hooks/pre-commit $(git rev-parse --show-toplevel)/git-hooks/
+cp $(git rev-parse --show-toplevel)/.git/hooks/post-commit $(git rev-parse --show-toplevel)/git-hooks/
+cp $(git rev-parse --show-toplevel)/.git/hooks/post-merge $(git rev-parse --show-toplevel)/git-hooks/
+coffee --compile $(git rev-parse --show-toplevel)/fme-sortable.coffee
+coffee --compile $(git rev-parse --show-toplevel)/spec/fme-sortable-spec.coffee
+
 karma start karma.conf.js --single-run --browsers PhantomJS
 if [ $? -eq 0 ]; then
     echo "GREAT SUCCESS -- ALL TESTS PASSED AND COFFEE WAS COMPILED"
     cp $(git rev-parse --show-toplevel)/coverage/PhantomJS\ 1.9.8\ \(Mac\ OS\ X\)/lcov-report/index.html $(git rev-parse --show-toplevel)/karma_tests.html
-  
     touch .commit
-
-    coffee --compile $(git rev-parse --show-toplevel)/fme-sortable.coffee
-    coffee --compile $(git rev-parse --show-toplevel)/spec/fme-sortable-spec.coffee
+    
     exit 0
   
 else
@@ -16,9 +19,7 @@ else
   
     touch .commit
 
-    coffee --compile $(git rev-parse --show-toplevel)/fme-sortable.coffee
-    coffee --compile $(git rev-parse --show-toplevel)/spec/fme-sortable-spec.coffee
     exit 0
-      exit 0
 fi
+
 exit 1
