@@ -31,8 +31,8 @@ angular.module('fme-sortable', [])
         dropped_fmeIndex = e.dataTransfer.getData('text/plain')
         dropped_model = scope.fmeList[dropped_fmeIndex]
         element.removeClass('dropzone')
-        #timeout needed see http://stackoverflow.com/questions/19391773/angularjs-parent-scope-not-updated-in-directive-with-isolated-scope-two-way-b
         $timeout ->
-          scope.fmeList.splice(dropped_fmeIndex,1)
-          scope.fmeList.splice(scope.fmeIndex,0,dropped_model)
+          scope.fmeList.splice(dropped_fmeIndex, 1)
+          scope.fmeList.splice(scope.fmeIndex, 0, dropped_model)
           scope.fmeOnDrop()
+          
