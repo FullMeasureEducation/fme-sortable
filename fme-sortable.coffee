@@ -6,7 +6,7 @@ angular.module('fme-sortable', [])
     fmeIndex: '='
     fmeOnDrop: '&'
     fmeNotSortable: '&'
-  link: (scope, element, attrs) ->
+  link: (scope, element) ->
     unless scope.fmeNotSortable()
       element.attr('draggable', 'true')
       dragging_index = null
@@ -23,7 +23,7 @@ angular.module('fme-sortable', [])
           element.addClass('dropzone')
           e.dataTransfer.dropEffect = 'move'
 
-      element.on 'dragleave', (event) ->
+      element.on 'dragleave', ->
         element.removeClass('dropzone')
 
       element.on 'drop', (event) ->
@@ -35,4 +35,3 @@ angular.module('fme-sortable', [])
           scope.fmeList.splice(dropped_fmeIndex, 1)
           scope.fmeList.splice(scope.fmeIndex, 0, dropped_model)
           scope.fmeOnDrop()
-          
